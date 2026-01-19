@@ -20,10 +20,10 @@
 ### 🏗️ Chặng 1:
 
 - [x] Nghiên cứu và thiết kế Database (ERD).
-- [✅] Định nghĩa các Models hệ thống.
-- [✅] Tích hợp Pydantic Settings, cài đặt và cấu hình Alembic để quản lý migration, cấu hình kết nối Database, chạy alembic tạo bảng.
-- [✅] Nghiên cứu fetch API github (chức năng dự án cần), Hash password, Seed Data
-- ✅ Viết module bảo mật: JWT.
+- [x] Định nghĩa các Models hệ thống.
+- [x] Tích hợp Pydantic Settings, cài đặt và cấu hình Alembic để quản lý migration, cấu hình kết nối Database, chạy alembic tạo bảng.
+- [x] Nghiên cứu fetch API github (chức năng dự án cần), Hash password, Seed Data
+- [x] Viết module bảo mật: JWT.
 - [ ] Hoàn thiện Schemas và CRUD cho My Info (Table) (Kiểm thử với JWT).
 
 ```bash

@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Depends, HTTPException, status
-from app.routers import auth
+from app.routers import auth, myinfo
 
 
 app = FastAPI()
@@ -9,6 +9,7 @@ def read_root():
     return {"Message" : "Welcome Backend của dự án Portfolio"}
 
 app.include_router(auth.router)
+app.include_router(myinfo.router)
 
 
 
