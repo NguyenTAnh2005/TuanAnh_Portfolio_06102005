@@ -2,7 +2,7 @@ import asyncio
 from app.db_connection import SessionLocal
 from app.models import models
 from app.core.config import settings
-from app.core.utils import hashing_password, checking_pasword, parse_github_date
+from app.core.security import hashing_password, parse_github_date
 from app.core.github_service import get_reposity_info
 
 
