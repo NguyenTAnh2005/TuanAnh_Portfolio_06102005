@@ -24,7 +24,7 @@
 - [x] Tích hợp Pydantic Settings, cài đặt và cấu hình Alembic để quản lý migration, cấu hình kết nối Database, chạy alembic tạo bảng.
 - [x] Nghiên cứu fetch API github (chức năng dự án cần), Hash password, Seed Data
 - [x] Viết module bảo mật: JWT.
-- [ ] Hoàn thiện Schemas và CRUD cho My Info (Table) (Kiểm thử với JWT).
+- [x] Hoàn thiện Schemas và CRUD cho My Info (Table) (Kiểm thử với JWT).
 
 ```bash
 # Viết JWT tutorial setup basic
@@ -77,8 +77,14 @@ Mỗi mã JWT được bóc tách thành 3 phần rõ rệt:
 
 ### 🛠️ Chặng 2: M
 
-- [ ] Viết Schemas và hàm CRUD cho các Models còn lại.
-- [ ] Nghiên cứu và triển khai các chức năng nâng cao.
+- Viết Schemas và hàm CRUD cho các Models còn lại:
+- [ ] User
+- [ ] Project
+- [ ] Category
+- [ ] Blog
+- [ ] Contact
+- Nghiên cứu và triển khai các chức năng nâng cao:
+- []
 
 ### 🎨 Chặng 3:
 

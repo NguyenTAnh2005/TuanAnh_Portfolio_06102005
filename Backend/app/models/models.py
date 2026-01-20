@@ -62,15 +62,15 @@ class Project(Base):
 
 
 # =======Bảng Category==========
-class Category(Base):
-    __tablename__ = "categories"
+class CategoryBlog(Base):
+    __tablename__ = "category_blogs"
 
     id = Column(Integer, primary_key = True, index = True)
     name = Column(String, unique = True, nullable = False)
     description = Column(String, nullable = True)
     slug = Column(String, unique = True, nullable = False, index = True)
 
-    blogs = relationship("Blog", back_populates = "category")
+    blogs = relationship("Blog", back_populates = "category_blog")
 
 
 # =======Bảng Blog============
@@ -81,13 +81,14 @@ class Blog(Base):
     title = Column(String, nullable = False, unique = True)
     summary = Column(String(500), nullable = False)
     content = Column(Text, nullable = False)
-    category_id = Column(Integer, ForeignKey("categories.id"), nullable = False)
+    category_blog_id = Column(Integer, ForeignKey("category_blogs.id"), nullable = False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     last_updated = Column(DateTime(timezone=True), onupdate=func.now())
     status = Column(String, nullable = False, default = "pending")  # pending, published, deleted
     slug = Column (String, unique = True, index = True, nullable = False)
     thumbnail_url = Column(String, nullable = False)
-    category = relationship("Category", back_populates = "blogs")
+    
+    category_blog = relationship("CategoryBlog", back_populates = "blogs")
 
 
 # ======= Bảng Contact Message ========
@@ -110,4 +111,44 @@ class SystemConfig(Base):
     id = Column(Integer, primary_key = True, index = True)
     config_key = Column(String, unique = True, index = True) # is_seeded
     config_value = Column(String) # True or False or number (string)
+
+
+# Bổ sung 
+# Bảng tiểu sử học tập
+class Timeline(Base):
+    __tablename__ = "timelines"
+
+    id = Column(Integer, primary_key = True, index = True)
+    title = Column(String, nullable = False)
+    organization = Column(String, nullable = False)
+    description = Column(Text, nullable = False)
+    start_end = Column(String, nullable = False)
+    sort_order = Column(Integer, nullable = False)
+
+# Bảng danh mục thành tích: CNTT< ngoại ngữ, khác
+class CategoryAchievement(Base):
+    __tablename__ = "category_achievements"
+
+    id = Column(Integer, primary_key = True, index = True)
+    name = Column(String, nullable = False)
+    description = Column(Text, nullable = True)
+
+    achievements = relationship("Achievement", back_populates = "category_achievement")
+
+
+# Bảng thành tích 
+class Achievement(Base):
+    __tablename__ = "achievements"
+
+    id = Column(Integer, primary_key = True, index = True)
+    title = Column(String, nullable = False)
+    content = Column(Text, nullable = False)
+    achieved_at = Column(String, nullable = False)
+    evidence_url = Column(String, nullable = False)
+    sort_order = Column(Integer, nullable = False)
+
+    category_achievements_id = Column(ForeignKey("category_achievements.id"), nullable = False)
+    category_achievement = relationship("CategoryAchievement",back_populates = "achievements")
+
+
 

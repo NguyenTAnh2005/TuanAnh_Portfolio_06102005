@@ -121,7 +121,7 @@ async def seed_data_projects(db):
 
 
 # ============ CATEGORY SEED DATA 
-def seed_data_categories(db):
+def seed_data_category_blogs(db):
     categories = [
         {"id" : 1,"name": "Học tập", "slug": "hoc-tap--hocthuat", "description": "Chia sẻ kiến thức, kinh nghiệm trong quá trình học tập chính"},
         {"id" : 2,"name": "Giải trí", "slug": "giaitri-thethao", "description": "Chia sẻ xung quanh về giải trí, thể thao"},
@@ -130,8 +130,8 @@ def seed_data_categories(db):
         {"id" : 5,"name": "Khác", "slug": "other", "description": "Lĩnh vực chưa được phân loại"},
     ]
     for cat in categories:
-        db.add(models.Category(**cat))
-    print(f"🫨  Added categories seed data ....... waiting commit .............")
+        db.add(models.CategoryBlog(**cat))
+    print(f"🫨  Added category_blogs seed data ....... waiting commit .............")
 
 
 #================= BLOGS SEED DATA
@@ -154,11 +154,72 @@ def seed_data_blogs(db):
             slug="du-an-fullstack--first",
             summary="Bài viết chia sẻ hành trình bản thân mình code một dự án fullstack đầu tiên và oke nhất!",
             content= blog_1_content,
-            category_id = 1,
+            category_blog_id = 1,
             status="published",
             thumbnail_url="https://res.cloudinary.com/df5mtvzkn/image/upload/v1767752471/My_Portfolio/Blogs/blog__1/Habit_Tracker_qht1gv.png"
         ))
     print(f"🫨  Added blogs seed data ....... waiting commit .............")
+
+# ================= CATEGORY ACHIEVEMENT SEED DATA
+def seed_data_category_achievement(db):
+    categories = [
+        {"id" : 1,"name": "CNTT", "description": "Thành tích liên quan chuyên ngành"},
+        {"id" : 2,"name": "Ngoại ngữ", "description": "Thành tích ngoại ngữ"},
+        {"id" : 3,"name": "Khác", "description": "Khác - Anh khạc hay em khạc"}
+    ]
+    for cat in categories:
+        db.add(models.CategoryAchievement(**cat))
+    print(f"🫨  Added category_achievements seed data ....... waiting commit .............")
+
+# ================= TIMELINE SEED DATA
+def seed_data_timeline(db):
+    timelines = [
+        {
+            "id": 1,
+            "title": "Sinh viên đại học",
+            "organization": "Trường đại học Bình Dương",
+            "description": "Quãng thời gian tuyệt vời, cách thức học khác lạ so với các cấp dưới, tôi làm quen được nhiều bạn bè hơn, cởi mở trong xã hội hơn. Từ những ngày chập chững trong học tập lẫn sinh sống, ngày qua ngày tôi dần thích nghi và đắm chìm trong quãng thời gian học đường tuyệt vời này. Hên là chưa tạch môn.",
+            "start_end": "2023 - Hiện nay",
+            "sort_order": 1
+        },
+        {
+            "id": 2,
+            "title": "Đi làm thêm ở GS25",
+            "organization": "Chung cư Opal Skyline tại Bình Dương.",
+            "description": "Trải nghiệm đi làm thêm tại cửa hàng tiện lợi GS25 - chuỗi cửa hàng có nguồn gốc từ Hàn Quốc. Tại đây tôi có nhiều trải nghiệm quý giá và cảm thấy trân trọng đồng tiền hơn. Nhưng tôi chỉ làm được vỏn vẹn 6 tháng trong năm hai tại đại học do không thể dành thêm thời gian tối thiểu trong tuần để đi làm.",
+            "start_end": "12/2024 - 06/2025",
+            "sort_order": 2
+        },
+        {
+            "id": 3,
+            "title": "Học sinh phổ thông",
+            "organization": "Trường THPT Cẩm Bình",
+            "description": "Một quãng thời gian học tập khá bình thường, không quá giỏi giang cũng không kém, thành tích học tập khá ổn. Thời điểm năm học lớp 11 (2021 - 2022), tôi được tiếp cận ngôn ngữ đầu tiên là PASCAL, lúc này tôi cũng chưa có một laptop để học lập trình.",
+            "start_end": "2020 - 2023",
+            "sort_order": 3
+        },
+        {
+            "id": 4,
+            "title": "Học sinh trung học",
+            "organization": "Trường THCS Nguyễn Hữu Thái",
+            "description": "Một khoảng thời gian học tập khá tuyệt vời, nơi kiến thức chưa nhiều và tôi cũng từng đi thi HSG huyện môn Toán 3 năm, Hóa 1 năm nhưng đều không thành công dù chỉ một giải khuyến khích :(",
+            "start_end": "2016 - 2020",
+            "sort_order": 4
+        },
+        {
+            "id": 5,
+            "title": "Học sinh tiểu học",
+            "organization": "Trường tiểu học Cẩm Quang",
+            "description": "Thời gian học cấp một tại trường học cũng quê nhà.",
+            "start_end": "2011 - 2016",
+            "sort_order": 5
+        },
+    ]
+
+    for time in timelines:
+        db.add(models.Timeline(**time))
+
+    print(f"🫨  Added timelines seed data ....... waiting commit .............")
 
 async def seed_data():
     db = SessionLocal()
@@ -176,8 +237,9 @@ async def seed_data():
         seed_data_roles(db)
         seed_data_user(db)
         seed_data_myinfo(db)
-        seed_data_categories(db)
+        seed_data_category_blogs(db)
         seed_data_blogs(db)
+        seed_data_timeline(db)
         await seed_data_projects(db)
         
         if check_is_seeded:
