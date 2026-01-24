@@ -14,7 +14,8 @@ router = APIRouter(
 @router.post("/create", response_model = schemas_myinfo.MyInfoCreate)
 def create_myinfo(
     myinfo: schemas_myinfo.MyInfoCreate,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_admin: models.User = Depends(get_current_admin) 
 ):
     count = db.query(models.Myinfo).count()
     if count >=1:
@@ -32,7 +33,7 @@ def get_myinfo_first(
     return crud_myinfo.get_myinfo_first(db)
 
 
-@router.get("/get", response_model = schemas_myinfo.MyInfoResponse)
+@router.get("/get/{myinfo_id}", response_model = schemas_myinfo.MyInfoResponse)
 def get_myinfo(
     myinfo_id: int,
     db: Session = Depends(get_db),
@@ -41,7 +42,7 @@ def get_myinfo(
     return crud_myinfo.get_myinfo(db, myinfo_id)
 
 
-@router.put("/update", response_model = schemas_myinfo.MyInfoUpdate)
+@router.put("/update/{myinfo_id}", response_model = schemas_myinfo.MyInfoUpdate)
 def update_myinfo(
     myinfo_id: int,
     myinfo_update: schemas_myinfo.MyInfoUpdate,
@@ -49,8 +50,7 @@ def update_myinfo(
     current_admin: models.User = Depends(get_current_admin)
 ):
     updated_data = crud_myinfo.update_myinfo(db, myinfo_id, myinfo_update)
-    print(myinfo_update)
-    print(updated_data)
+
     if not updated_data:
         raise HTTPException(
             status_code = status.HTTP_404_NOT_FOUND,

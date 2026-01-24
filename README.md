@@ -17,7 +17,7 @@
 
 ## 🗺️ Lộ trình phát triển (Roadmap)
 
-### 🏗️ Chặng 1:
+## 🏗️ Chặng 1:
 
 - [x] Nghiên cứu và thiết kế Database (ERD).
 - [x] Định nghĩa các Models hệ thống.
@@ -72,28 +72,37 @@ Mỗi mã JWT được bóc tách thành 3 phần rõ rệt:
     Nó đóng vai trò là cái tem niêm phong.
 ```
 
-- [ ] Viết script Seed Data mẫu.
-- [ ] Chạy Uvicorn và test API qua Swagger UI.
+- [x] Viết script Seed Data mẫu.
+- [x] Chạy Uvicorn và test API qua Swagger UI.
 
-### 🛠️ Chặng 2: M
+## 🛠️ Chặng 2: M
 
-- Viết Schemas và hàm CRUD cho các Models còn lại:
-- [ ] User
-- [ ] Project
-- [ ] Category
+### Viết Schemas và hàm CRUD cho các Models còn lại:
+
+- [x] Roles
+- [x] User
+- [x] Project
+- [ ] Coding api helping recovery admin password when I has forgot.
+- [ ] CategoryBlog
 - [ ] Blog
 - [ ] Contact
-- Nghiên cứu và triển khai các chức năng nâng cao:
+- [ ] System Config
+- [ ] Timeline
+- [ ] CategoryAchievement
+- [ ] Achievement
+
+### Nghiên cứu và triển khai các chức năng nâng cao:
+
 - []
 
-### 🎨 Chặng 3:
+## 🎨 Chặng 3:
 
 - [ ] Khởi tạo project React, cấu hình Middleware CORS.
 - [ ] Viết logic gọi API (Fetch/Axios) để kiểm tra kết nối.
 - [ ] Học và áp dụng kiến thức nâng cao về React (Hooks, Context).
 - [ ] Triển khai giao diện Portfolio hoàn chỉnh.
 
-### ☁️ Chặng 4: (Deployment)
+## ☁️ Chặng 4: (Deployment)
 
 - [ ] Chuẩn bị môi trường và Deploy ứng dụng.
 

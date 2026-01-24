@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Depends, HTTPException, status
-from app.routers import auth, myinfo
+from app.routers import auth, myinfo, role, user, project
 
 
 app = FastAPI()
@@ -10,6 +10,9 @@ def read_root():
 
 app.include_router(auth.router)
 app.include_router(myinfo.router)
+app.include_router(role.router)
+app.include_router(user.router)
+app.include_router(project.router)
 
 
 

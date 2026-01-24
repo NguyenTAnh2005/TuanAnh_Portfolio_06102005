@@ -15,10 +15,10 @@ class UserCreateByAdmin(UserBase):
     role_id: int
 
 
-class UserRessponse(BaseModel):
+class UserResponse(BaseModel):
     id: int
     class Config:
-        from_attribute = True
+        from_attributes = True
 
 
 class UserUpdate(BaseModel):
@@ -29,6 +29,9 @@ class UserUpdate(BaseModel):
 
 class UserUpdateByAdmin(BaseModel):
     username: Optional[str] = None
-    password: Optional[str] = None
     email: Optional[str] = None
     role_id: Optional[int] = None
+
+
+class UserUpdatePassWordAdmin(BaseModel):
+    password: str

@@ -1,16 +1,16 @@
 from sqlalchemy.orm import Session
 from app.models import models
-from schemas import schemas_role
+from app.schemas import schemas_role
 
 def create_role(db: Session, role: schemas_role.RoleCreate):
     new_role = models.Role(**role.model_dump())
     db.add(new_role)
     db.commit()
-    db.close()
+    db.refresh(new_role)
     return new_role
 
 
-def get_all_roles(db: Session, skip: int = 0, limit: int = 100):
+def get_all_roles(db: Session, skip: int = 0, limit: int = 30):
     return db.query(models.Role).offset(skip).limit(limit).all()
 
 
@@ -28,7 +28,7 @@ def update_role(db: Session, role_id: int, updated_role: schemas_role.RoleUpdate
         setattr(db_role, key, value)
     db.add(db_role)
     db.commit()
-    db.close()
+    db.refresh(db_role)
     return db_role
 
 
@@ -38,6 +38,6 @@ def delete_role(db: Session, role_id: int):
         return None
     db.delete(db_role)
     db.commit()
-    db.close()
+    db.refresh(db_role)
     return db_role
     

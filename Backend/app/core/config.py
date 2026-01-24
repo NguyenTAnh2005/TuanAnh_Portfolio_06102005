@@ -18,6 +18,8 @@ class Settings(BaseSettings):
     FIRST_ADMIN_PASSWORD:str
 
     GITHUB_TOKEN : str
+    
+    RECOVERY_KEY_ADMIN: str
 
     class Config:
         env_file = ".env"
