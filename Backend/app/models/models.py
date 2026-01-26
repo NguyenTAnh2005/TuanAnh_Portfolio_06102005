@@ -57,8 +57,8 @@ class Project(Base):
     deploy_url = Column(String, nullable = True)
     #tech_stack = frameworks 
     tech_stack = Column(ARRAY(String), nullable = True)
-    created_at = Column(DateTime(timezone=True), nullable=False)
-    last_updated = Column(DateTime(timezone=True), nullable=False)
+    created_at = Column(DateTime(timezone=True),server_default= func.now(), nullable=False)
+    last_updated = Column(DateTime(timezone=True), server_default= func.now(), nullable=False)
 
 
 # =======Bảng Category==========
@@ -70,7 +70,7 @@ class CategoryBlog(Base):
     description = Column(String, nullable = True)
     slug = Column(String, unique = True, nullable = False, index = True)
 
-    blogs = relationship("Blog", back_populates = "category_blog")
+    blogs = relationship("Blog", back_populates = "category_blog", cascade = "all, delete-orphan")
 
 
 # =======Bảng Blog============

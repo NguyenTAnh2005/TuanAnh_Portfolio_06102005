@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Depends, HTTPException, status
-from app.routers import auth, myinfo, role, user, project
+from app.routers import auth, myinfo, role, user, project, system
 
 
 app = FastAPI()
@@ -13,6 +13,10 @@ app.include_router(myinfo.router)
 app.include_router(role.router)
 app.include_router(user.router)
 app.include_router(project.router)
+
+
+app.include_router(system.router)
+
 
 
 

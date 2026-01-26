@@ -4,15 +4,43 @@ from app.models import models
 from app.schemas import schemas_project
 from sqlalchemy.orm import Session
 from sqlalchemy import desc, asc
+from app.core.github_service import get_reposity_info
+from app.core.security import parse_github_date
+from datetime import datetime, timezone
 
-def create_project(db: Session, project: schemas_project.ProjectCreate):
+
+async def create_project(db: Session, project: schemas_project.ProjectCreate):
     db_project = db.query(models.Project).filter(models.Project.title == project.title).first()
     if db_project:
         raise HTTPException(
             status_code = status.HTTP_409_CONFLICT,
             detail = "Đã tồn tại tên dự án trong cơ sở dữ liệu"
         )
-    new_project = models.Project(**project.model_dump())
+    data_fetch = await get_reposity_info(project.project_url)
+
+    # when GitHub API fail or repo url is invalid, we will set default values to avoid error :v 
+    description = "No description provided"
+    final_tech = project.tech_stack.copy()
+    created_at = datetime.now(timezone.utc)
+    last_updated = datetime.now(timezone.utc)
+    if data_fetch:
+        if data_fetch.get("description"):
+            description = data_fetch["description"]
+        created_at =  parse_github_date(data_fetch["created_at"])
+        last_updated = parse_github_date(data_fetch["last_updated"])
+        for tech in data_fetch["tech_stack"]:
+            if tech not in final_tech:
+                final_tech.append(tech)
+    new_project = models.Project(
+        title = project.title,
+        description = description,
+        thumbnail_url = project.thumbnail_url,
+        project_url = project.project_url,
+        deploy_url = project.deploy_url,
+        tech_stack = final_tech,
+        created_at = created_at,
+        last_updated = last_updated
+    )
     db.add(new_project)
     db.commit()
     db.refresh(new_project)
@@ -54,12 +82,40 @@ def get_project(db: Session, project_id: int):
     return db_project
 
 
-def update_project(db: Session, project_id: int, updated_project: schemas_project.ProjectUpdate):
+async def update_project(db: Session, project_id: int, updated_project: schemas_project.ProjectUpdate):
+    if updated_project.title:
+        updated_title = db.query(models.Project).filter(
+            models.Project.title == updated_project.title,
+            models.Project.id != project_id
+            ).first()
+        if updated_title:
+            raise HTTPException(
+                status_code = status.HTTP_409_CONFLICT,
+                detail = "Trường title được cập nhật đã tồn tại teong hệ thống, vui lòng cập nhật lại!!"
+            )
     db_project = get_project(db, project_id)
-    updated_data = updated_project.model_dump(exclude_unset = True)
-    for key, value in updated_data.items():
-       setattr(db_project, key, value)
-    db.add(updated_project)
+    # Convert info at request first, and then, we will check the project_url
+    update_data = updated_project.model_dump(exclude_unset = True)
+    #If the project_url is updated, we need to fetch data from GitHub again
+    new_url = update_data.get("project_url")
+    if new_url and new_url != db_project.project_url:
+        # Lấy tech_stack hiện tại (ưu tiên cái user vừa nhập trong request, nếu không có thì lấy từ DB)
+        # Vì Schema có default=[], nên ta check xem nó có trong update_data không
+        current_tech = update_data.get("tech_stack", db_project.tech_stack.copy())
+        data_fetch = await get_reposity_info(new_url)
+        if data_fetch.get("description"):
+            update_data["description"] = data_fetch["description"]
+        else: 
+            update_data["description"] = "No description provided"
+        update_data["created_at"] = parse_github_date(data_fetch["created_at"])
+        update_data["last_updated"] = parse_github_date(data_fetch["last_updated"])
+        for tech in data_fetch["tech_stack"]:
+            if tech not in current_tech:
+                current_tech.append(tech)
+        update_data["tech_stack"] = current_tech
+    for key, value in update_data.items():
+        setattr(db_project, key, value)
+    db.add(db_project)
     db.commit()
     db.refresh(db_project)
     return db_project

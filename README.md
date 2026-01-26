@@ -82,7 +82,7 @@ Mỗi mã JWT được bóc tách thành 3 phần rõ rệt:
 - [x] Roles
 - [x] User
 - [x] Project
-- [ ] Coding api helping recovery admin password when I has forgot.
+- [x] Coding api helping recovery admin password when I has forgot.
 - [ ] CategoryBlog
 - [ ] Blog
 - [ ] Contact

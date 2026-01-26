@@ -1,5 +1,6 @@
 import httpx
 from app.core.config import settings
+from fastapi import HTTPException, status
 
 async def get_reposity_info(url: str):
     """
@@ -10,7 +11,10 @@ async def get_reposity_info(url: str):
     # # Ví dụ: https://github.com/NguyenTAnh2005/Habit_Tracker -> NguyenTAnh2005/Habit_Tracker
     parts = url.rstrip("/").split("/")
     if len(parts) < 2:
-        return None
+        raise HTTPException(
+            status_code = status.HTTP_400_BAD_REQUEST,
+            detail = f"🤡 Github URL is not valid! Try Again!"
+        )
     
     # Lấy tham số cần thiết để gọi reposity API 
     owner_repo = f"{parts[-2]}/{parts[-1]}"
@@ -28,20 +32,27 @@ async def get_reposity_info(url: str):
     async with httpx.AsyncClient() as client:
         try:
             repo_response = await client.get(base_api_url, headers = headers)
+            if repo_response.status_code == 404:
+                raise HTTPException(
+                    status_code = status.HTTP_404_NOT_FOUND, detail = f"😓 Không tìm thấy reposity github!!!"
+                )
+            if repo_response.status_code != 200:
+                raise HTTPException(
+                    status_code = repo_response.status_code, detail = f"😓 Lỗi kết nối API github!!!"
+                )
             lang_response = await client.get(languages_url, headers = headers)
-
-            if repo_response.status_code == 200:
-                repo_data = repo_response.json()
-                lang_data = lang_response.json()
-                return{
+            repo_data = repo_response.json()
+            lang_data = lang_response.json()
+            return{
                     "description" : repo_data.get("description"),
                     "created_at" : repo_data.get("created_at"),
                     "last_updated": repo_data.get("pushed_at"),
                     "tech_stack": list(lang_data.keys())
                 }
-            else: 
-                print(f"❌ Lỗi từ GitHub: {repo_response.status_code}")
-                return None
+        except HTTPException:
+            raise
         except Exception as e:
-            print(f"❌ Lỗi kết nối API: {e}")
-            return None
+            raise HTTPException(
+                status_code = status.HTTP_503_SERVICE_UNAVAILABLE,
+                detail = f"☠️ Không thể kết nối đến với Github: {str(e)}"
+            )

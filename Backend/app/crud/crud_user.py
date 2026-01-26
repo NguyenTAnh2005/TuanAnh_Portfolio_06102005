@@ -98,7 +98,7 @@ def update_password_by_admin(db: Session, user_id: int, password_object: schemas
     return db_user
 
 
-def recovery_password_admin_account(db: Session):
+def recovery_first_admin_account(db: Session):
     if not settings.FIRST_ADMIN_PASSWORD:
         raise HTTPException(
             status_code = status.HTTP_404_NOT_FOUND,
@@ -115,7 +115,8 @@ def recovery_password_admin_account(db: Session):
             detail = "Không tìm thấy tài khoản Admin ban đầu do không khớp email hoặc id"
         )
     db_user.password = hashing_password(settings.FIRST_ADMIN_PASSWORD)
+    db_user.email = settings.FIRST_ADMIN_EMAIL
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
-    return {"message": "Khôi phục lại mật khẩu thành công!"}
+    return {"message": "Khôi phục lại mật khẩu và email thành công!"}

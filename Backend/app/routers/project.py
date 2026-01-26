@@ -14,12 +14,12 @@ router = APIRouter(
 
 
 @router.post("/create", response_model = schemas_project.ProjectResponse)
-def create_project(
+async def create_project(
     project: schemas_project.ProjectCreate,
     db: Session = Depends(get_db),
     current_admin: models.User = Depends(get_current_admin)
 ):
-    return crud_project.create_project(db, project)
+    return await crud_project.create_project(db, project)
 
 
 @router.get("/get-all", response_model = list[schemas_project.ProjectResponse])
@@ -46,19 +46,19 @@ def get_project(
 
 
 @router.put("/update/{project_id}", response_model = schemas_project.ProjectUpdate)
-def update_project(
+async def update_project(
     project_id: int,
     updated_project: schemas_project.ProjectUpdate,
     db: Session = Depends(get_db),
     current_admin: models.User = Depends(get_current_admin)
 ):
-    return crud_project.update_project(db, project_id, updated_project)
+    return await crud_project.update_project(db, project_id, updated_project)
 
 
 @router.delete("/delete/{project_id}", response_model = schemas_project.ProjectResponse)
 def delete_project(
     project_id: int,
-    db: Session
+    db: Session = Depends(get_db)
 ): 
     return crud_project.delete_project(db, project_id)
     

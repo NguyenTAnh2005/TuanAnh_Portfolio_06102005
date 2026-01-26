@@ -4,7 +4,7 @@ from datetime import datetime
 
 class ProjectBase(BaseModel):
     title: str
-    description: str
+    description: Optional[str] = None
     thumbnail_url: str 
     project_url: str
     deploy_url: Optional[str] = None 
@@ -27,10 +27,7 @@ class ProjectResponse(ProjectBase):
 
 class ProjectUpdate(BaseModel):
     title: Optional[str] = None
-    description: Optional[str] = None
     thumbnail_url: Optional[str] = None
     project_url: Optional[str] = None 
     deploy_url: Optional[str] = None 
     tech_stack: list[str]  = []
-    created_at: Optional[datetime] = None
-    last_updated: Optional[datetime] = None
