@@ -31,7 +31,6 @@ def get_all_projects(
     tech: str = Query(None, description = "Tìm theo tên công nghệ được sửa dụng trong dự án (React, FastAPI,...)"),
     sort_by: str = Query("created_at", description = "Sắp xếp theo cột nào trong CSDL"),
     order: Literal["asc", "desc"] = Query("desc", description = " Sắp xếp theo tăng dần (asc) hoặc giảm dần (desc)" )
-
 ):
     return crud_project.get_all_projects(db, skip, limit, title, tech, sort_by, order)
 
@@ -55,10 +54,11 @@ async def update_project(
     return await crud_project.update_project(db, project_id, updated_project)
 
 
-@router.delete("/delete/{project_id}", response_model = schemas_project.ProjectResponse)
+@router.delete("/delete/{project_id}")
 def delete_project(
     project_id: int,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_admin: models.User = Depends(get_current_admin)
 ): 
     return crud_project.delete_project(db, project_id)
     

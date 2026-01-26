@@ -125,4 +125,8 @@ def delete_project(db: Session, project_id: int):
     db_project = get_project(db, project_id)
     db.delete(db_project)
     db.commit()
-    return db_project
+    return {
+        "status": "Success",
+        "message": " Đã xóa thành công project",
+        "project_info":{db_project}
+    }

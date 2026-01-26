@@ -33,9 +33,7 @@ def get_all_category_blogs(
     return query.offset(skip).limit(limit).all()
 
 
-def get_category_blog(
-        db: Session, slug: str
-):
+def get_category_blog( db: Session, slug: str):
     db_category_blog = db.query(models.CategoryBlog).filter(models.CategoryBlog.slug == slug).first()
     if not db_category_blog:
         raise HTTPException(
@@ -53,6 +51,7 @@ def update_category_blog(db: Session, category_blog_id: int, updated_category_bl
     db.add(db_category_blog)
     db.commit()
     db.refresh(db_category_blog)
+    
 
 def delete_category_blog(db: Session, category_blog_id: int):
     db_category_blog = get_category_blog(db, category_blog_id)
