@@ -33,7 +33,7 @@ def get_all_category_blogs(
     return query.offset(skip).limit(limit).all()
 
 
-def get_category_blog( db: Session, category_blog_slug: str):
+def get_category_blog_by_slug( db: Session, category_blog_slug: str):
     db_category_blog = db.query(models.CategoryBlog).filter(models.CategoryBlog.slug == category_blog_slug).first()
     if not db_category_blog:
         raise HTTPException(
@@ -43,8 +43,18 @@ def get_category_blog( db: Session, category_blog_slug: str):
     return db_category_blog
 
 
+def get_category_blog_by_id(db: Session, category_blog_id: int):
+    db_category_blog = db.query(models.CategoryBlog).filter(models.CategoryBlog.id == category_blog_id).first()
+    if not db_category_blog:
+        raise HTTPException(
+            status_code = status.HTTP_404_NOT_FOUND,
+            detail = "Không tìm thấy đối tượng CategoryBlog trong hệ thống!"
+        )
+    return db_category_blog
+
+
 def update_category_blog(db: Session, category_blog_id: int, updated_category_blog: schemas.CategoryBlogUpdate,):
-    db_category_blog = get_category_blog(db, category_blog_id)
+    db_category_blog = get_category_blog_by_id(db, category_blog_id)
     update_data = updated_category_blog.model_dump(exclude_unset = True)
     for key, value in update_data.items():
         setattr(db_category_blog, key, value)
@@ -54,7 +64,7 @@ def update_category_blog(db: Session, category_blog_id: int, updated_category_bl
     
 
 def delete_category_blog(db: Session, category_blog_id: int):
-    db_category_blog = get_category_blog(db, category_blog_id)
+    db_category_blog = get_category_blog_by_id(db, category_blog_id)
     # Because in models.py, we have set cascade for CategoryBlog, so when we delete CategoryBlog,
     # all blogs under this category will be deleted automatically. Amzingggg
     db.delete(db_category_blog)

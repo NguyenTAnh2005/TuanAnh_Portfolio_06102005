@@ -83,7 +83,7 @@ Mỗi mã JWT được bóc tách thành 3 phần rõ rệt:
 - [x] User
 - [x] Project
 - [x] Coding api helping recovery admin password when I has forgot.
-- [ ] CategoryBlog
+- [x] CategoryBlog
 - [ ] Blog
 - [ ] Contact
 - [ ] System Config

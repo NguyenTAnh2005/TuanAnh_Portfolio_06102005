@@ -32,13 +32,23 @@ def get_all_category_blogs(
     return crud.get_all_category_blogs(db, skip = skip, limit = limit, name = name)
 
 
-@router.get("/{slug}", response_model = schemas.CategoryBlogResponse)
-def get_category_blog(
+
+@router.get("/{id}", response_model = schemas.CategoryBlogResponse)
+def get_category_blog_by_id(
+    id: int,
+    db: Session = Depends(get_db),
+    current_admin: models.User = Depends(get_current_admin)
+):
+    return crud.get_category_blog_by_id(db, category_blog_id = id)
+
+
+@router.get("/slug/{slug}", response_model = schemas.CategoryBlogResponse)
+def get_category_blog_by_slug(
     slug: str,
     db: Session = Depends(get_db),
     current_admin: models.User = Depends(get_current_admin)
 ):
-    return crud.get_category_blog(db, category_blog_slug = slug)
+    return crud.get_category_blog_by_slug(db, category_blog_slug = slug)
 
 
 @router.put("/{id}", response_model = schemas.CategoryBlogUpdate)
