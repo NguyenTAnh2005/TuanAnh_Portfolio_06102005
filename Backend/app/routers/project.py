@@ -8,21 +8,21 @@ from app.models import models
 from app.crud import crud_project
 
 router = APIRouter(
-    prefix = "/project",
+    prefix = "/projects",
     tags = ["Projects"]
 )
 
 
-@router.post("/create", response_model = schemas_project.ProjectResponse)
+@router.post("/", response_model = schemas_project.ProjectResponse)
 async def create_project(
     project: schemas_project.ProjectCreate,
     db: Session = Depends(get_db),
     current_admin: models.User = Depends(get_current_admin)
 ):
-    return await crud_project.create_project(db, project)
+    return await crud_project.create_project(db, project = project)
 
 
-@router.get("/get-all", response_model = list[schemas_project.ProjectResponse])
+@router.get("/", response_model = list[schemas_project.ProjectResponse])
 def get_all_projects(
     db: Session = Depends(get_db),
     skip: int = Query(0, ge = 0, description = "Số bản ghi muốn bỏ qua (trang 1 ... 10) "),
@@ -32,34 +32,34 @@ def get_all_projects(
     sort_by: str = Query("created_at", description = "Sắp xếp theo cột nào trong CSDL"),
     order: Literal["asc", "desc"] = Query("desc", description = " Sắp xếp theo tăng dần (asc) hoặc giảm dần (desc)" )
 ):
-    return crud_project.get_all_projects(db, skip, limit, title, tech, sort_by, order)
+    return crud_project.get_all_projects(db, skip = skip, limit = limit, title = title, tech = tech, sort_by = sort_by, order = order)
 
 
-@router.get("/get/{project_id}", response_model = schemas_project.ProjectResponse)
+@router.get("/{id}", response_model = schemas_project.ProjectResponse)
 def get_project(
-    project_id: int,
+    id: int,
     db: Session = Depends(get_db),
     current_admin: models.User = Depends(get_current_admin)
 ):
-    return crud_project.get_project(db, project_id)
+    return crud_project.get_project(db, project_id = id)
 
 
-@router.put("/update/{project_id}", response_model = schemas_project.ProjectUpdate)
+@router.put("/{id}", response_model = schemas_project.ProjectUpdate)
 async def update_project(
-    project_id: int,
+    id: int,
     updated_project: schemas_project.ProjectUpdate,
     db: Session = Depends(get_db),
     current_admin: models.User = Depends(get_current_admin)
 ):
-    return await crud_project.update_project(db, project_id, updated_project)
+    return await crud_project.update_project(db, project_id = id, updated_project = updated_project)
 
 
-@router.delete("/delete/{project_id}")
+@router.delete("/{id}")
 def delete_project(
-    project_id: int,
+    id: int,
     db: Session = Depends(get_db),
     current_admin: models.User = Depends(get_current_admin)
 ): 
-    return crud_project.delete_project(db, project_id)
+    return crud_project.delete_project(db, project_id = id)
     
     

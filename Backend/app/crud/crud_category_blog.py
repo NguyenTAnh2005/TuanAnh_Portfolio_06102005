@@ -33,8 +33,8 @@ def get_all_category_blogs(
     return query.offset(skip).limit(limit).all()
 
 
-def get_category_blog( db: Session, slug: str):
-    db_category_blog = db.query(models.CategoryBlog).filter(models.CategoryBlog.slug == slug).first()
+def get_category_blog( db: Session, category_blog_slug: str):
+    db_category_blog = db.query(models.CategoryBlog).filter(models.CategoryBlog.slug == category_blog_slug).first()
     if not db_category_blog:
         raise HTTPException(
             status_code = status.HTTP_404_NOT_FOUND,

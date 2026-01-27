@@ -7,18 +7,18 @@ from app.db_connection import get_db
 from app.core.security import get_current_user, get_current_admin
 
 router = APIRouter(
-    prefix = "/user",
+    prefix = "/users",
     tags = ["User"]
 )
 
 
-@router.post("/create-by-admin", response_model = schemas_user.UserCreateByAdmin)
+@router.post("/", response_model = schemas_user.UserCreateByAdmin)
 def create_user_by_admin(
     user: schemas_user.UserCreateByAdmin,
     db: Session = Depends(get_db),
     current_admin: models.User = Depends(get_current_admin)
 ):
-    return crud_user.create_user_by_admin(db, user)
+    return crud_user.create_user_by_admin(db, user = user)
  
 # This Website don't have to register new user by themself, just sign in with Admin to edit info
 # @router.post("/create-register")
@@ -29,24 +29,24 @@ def create_user_by_admin(
 
 # @router.update--- for user, in current, we don't need this
 
-@router.put("/update-by-admin/{user_id}", response_model = schemas_user.UserUpdateByAdmin)
+@router.put("/{id}", response_model = schemas_user.UserUpdateByAdmin)
 def update_user_by_admin(
-    user_id: int,
-    user_update: schemas_user.UserUpdateByAdmin,
+    id: int,
+    updated_user: schemas_user.UserUpdateByAdmin,
     db: Session = Depends(get_db),
     current_admin: models.User = Depends(get_current_admin)
 ):
-    return crud_user.update_user_by_admin(db, user_id, user_update)
+    return crud_user.update_user_by_admin(db, user_id = id, updated_user = updated_user)
 
 
-@router.patch("/update-password-by-admin/{user_id}", response_model = schemas_user.UserResponse)
+@router.patch("/{id}", response_model = schemas_user.UserResponse)
 def update_password_by_admin(
     password: schemas_user.UserUpdatePassWordAdmin,
-    user_id: int,
+    id: int,
     db: Session = Depends(get_db),
     current_admin: models.User = Depends(get_current_admin)
 ):
-    return crud_user.update_password_by_admin(db, user_id, password)
+    return crud_user.update_password_by_admin(db, user_id = id, password_object = password)
 
 
 # @router.delete ----- this website also don't have to delete user :)))

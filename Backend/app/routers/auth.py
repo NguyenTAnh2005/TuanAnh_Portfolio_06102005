@@ -34,3 +34,7 @@ def login(
         "access_token": access_token,
         "token_type": "bearer"
     }
+
+@router.post("/register")
+def register():
+    return {"message": "This website doesn't support register!"}

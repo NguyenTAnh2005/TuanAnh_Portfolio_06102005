@@ -7,11 +7,11 @@ from app.crud import crud_myinfo
 from app.core.security import get_current_user, get_current_admin
 
 router = APIRouter(
-    prefix = "/myinfo",
+    prefix = "/my-infos",
     tags = ["Info"]
 )
 
-@router.post("/create", response_model = schemas_myinfo.MyInfoCreate)
+@router.post("/", response_model = schemas_myinfo.MyInfoCreate)
 def create_myinfo(
     myinfo: schemas_myinfo.MyInfoCreate,
     db: Session = Depends(get_db),
@@ -23,33 +23,33 @@ def create_myinfo(
             status_code = status.HTTP_403_FORBIDDEN,
             detail = "Đã tồn tại dữ liệu My info, hãy chạy API update"
         )
-    return crud_myinfo.create_myinfo(db, myinfo)
+    return crud_myinfo.create_myinfo(db, myinfo = myinfo)
 
 
-@router.get("/get-first", response_model = schemas_myinfo.MyInfoResponse)
+@router.get("/", response_model = schemas_myinfo.MyInfoResponse)
 def get_myinfo_first(
     db: Session = Depends(get_db)
 ):
     return crud_myinfo.get_myinfo_first(db)
 
 
-@router.get("/get/{myinfo_id}", response_model = schemas_myinfo.MyInfoResponse)
+@router.get("/{id}", response_model = schemas_myinfo.MyInfoResponse)
 def get_myinfo(
-    myinfo_id: int,
+    id: int,
     db: Session = Depends(get_db),
     current_admin: models.User = Depends(get_current_admin)
 ):
-    return crud_myinfo.get_myinfo(db, myinfo_id)
+    return crud_myinfo.get_myinfo(db, myinfo_id = id)
 
 
-@router.put("/update/{myinfo_id}", response_model = schemas_myinfo.MyInfoUpdate)
+@router.put("/{id}", response_model = schemas_myinfo.MyInfoUpdate)
 def update_myinfo(
-    myinfo_id: int,
-    myinfo_update: schemas_myinfo.MyInfoUpdate,
+    id: int,
+    updated_myinfo: schemas_myinfo.MyInfoUpdate,
     db: Session = Depends(get_db),
     current_admin: models.User = Depends(get_current_admin)
 ):
-    updated_data = crud_myinfo.update_myinfo(db, myinfo_id, myinfo_update)
+    updated_data = crud_myinfo.update_myinfo(db, myinfo_id = id, updated_myinfo = updated_myinfo)
 
     if not updated_data:
         raise HTTPException(
