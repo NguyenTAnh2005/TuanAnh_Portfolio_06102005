@@ -61,7 +61,7 @@ class Project(Base):
     last_updated = Column(DateTime(timezone=True), server_default= func.now(), nullable=False)
 
 
-# =======Bảng Category==========
+# =======Bảng Category Blog==========
 class CategoryBlog(Base):
     __tablename__ = "category_blogs"
 
@@ -82,8 +82,8 @@ class Blog(Base):
     summary = Column(String(500), nullable = False)
     content = Column(Text, nullable = False)
     category_blog_id = Column(Integer, ForeignKey("category_blogs.id"), nullable = False)
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
-    last_updated = Column(DateTime(timezone=True), onupdate=func.now())
+    created_at = Column(DateTime(timezone=True), default=func.now())
+    last_updated = Column(DateTime(timezone=True), default= func.now(), onupdate=func.now())
     status = Column(String, nullable = False, default = "pending")  # pending, published, deleted
     slug = Column (String, unique = True, index = True, nullable = False)
     thumbnail_url = Column(String, nullable = False)
@@ -123,7 +123,7 @@ class Timeline(Base):
     organization = Column(String, nullable = False)
     description = Column(Text, nullable = False)
     start_end = Column(String, nullable = False)
-    sort_order = Column(Integer, nullable = False)
+    sort_order = Column(Integer, unique= True, nullable = False)
 
 # Bảng danh mục thành tích: CNTT< ngoại ngữ, khác
 class CategoryAchievement(Base):

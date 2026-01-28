@@ -10,7 +10,7 @@ from datetime import datetime
 
 
 def create_blog(db: Session, blog: schemas.BlogCreate):
-    db_CB = crud_CB.get_category_blog_by_id(blog.category_blog_id)
+    db_CB = crud_CB.get_category_blog_by_id(db, category_blog_id = blog.category_blog_id)
     check_title = db.query(models.Blog).filter(or_(models.Blog.slug == blog.slug, models.Blog.title == blog.title)).first()
     if check_title:
         raise HTTPException(
@@ -53,6 +53,7 @@ def get_blog_by_id(db: Session, blog_id: int):
             status_code = status.HTTP_404_NOT_FOUND,
             detail = "Không tìm thấy đối tượng blog trong hệ thống!"
         )
+    return db_blog
 
 
 def get_blog_by_slug(db: Session, blog_slug: str):
@@ -62,8 +63,29 @@ def get_blog_by_slug(db: Session, blog_slug: str):
             status_code = status.HTTP_404_NOT_FOUND,
             detail = "Không tìm thấy đối tượng blog trong hệ thống!"
         )
-    
+    return db_blog
 
 def update_blog(db: Session, blog_id: int, updated_blog: schemas.BlogUpdate):
     db_blog = get_blog_by_id(db, blog_id)
+    update_data = updated_blog.model_dump(exclude_unset = True)
+    for key, value in update_data.items():
+        setattr(db_blog, key, value)
+    # because last_updated was set onupdate = func.now() in models file. When db is updated
+    #  (db commit,...), it will automatically update last_updated field by current timestamp
+    db.add(db_blog)
+    db.commit()
+    db.refresh(db_blog)
+    return db_blog
+
+
+
+def delete_blog(db: Session, blog_id: int):
+    db_blog = get_blog_by_id(db, blog_id)
+    db.delete(db_blog)
+    db.commit()
+    return {
+        "status" : "Ok",
+        "message" : f"Đã xóa thành công blog có id {blog_id}",
+        "blog_info": db_blog
+    }
 

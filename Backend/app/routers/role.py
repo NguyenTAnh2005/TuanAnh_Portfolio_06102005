@@ -31,13 +31,13 @@ def get_all_roles(
     return crud_role.get_all_roles(db, skip = skip, limit = limit)
 
 
-@router.get("/{id}", response_model = schemas_role.RoleResponse)
+@router.get("/{role_id}", response_model = schemas_role.RoleResponse)
 def get_role(
-    id: int,
+    role_id: int,
     db: Session = Depends(get_db),
     current_admin: models.User = Depends(get_current_admin)
 ):
-    founded_role = crud_role.get_role(db, role_id = id)
+    founded_role = crud_role.get_role(db, role_id = role_id)
     if not founded_role:
         raise HTTPException(
             status_code = status.HTTP_404_NOT_FOUND,
@@ -45,14 +45,14 @@ def get_role(
         )
     return founded_role
 
-@router.put("/{id}", response_model = schemas_role.RoleUpdate)
+@router.put("/{role_id}", response_model = schemas_role.RoleUpdate)
 def update_role(
-    id: int,
+    role_id: int,
     updated_role: schemas_role.RoleUpdate,
     db: Session = Depends(get_db),
     current_admin: models.User = Depends(get_current_admin)
 ):
-    updated_data = crud_role.update_role(db, role_id = id, updated_role = updated_role)
+    updated_data = crud_role.update_role(db, role_id = role_id, updated_role = updated_role)
     if not updated_data:
         raise HTTPException(
             status_code = status.HTTP_404_NOT_FOUND,
@@ -61,13 +61,13 @@ def update_role(
     return updated_data
 
 
-@router.delete("/{id}", response_model = schemas_role.RoleResponse)
+@router.delete("/{role_id}", response_model = schemas_role.RoleResponse)
 def delete_role(
-    id: int,
+    role_id: int,
     db: Session = Depends(get_db),
     current_admin: models.User = Depends(get_current_admin)
 ):
-    deleted_data = crud_role.delete_role(db, role_id = id)
+    deleted_data = crud_role.delete_role(db, role_id = role_id)
     if not deleted_data:
         raise HTTPException(
             status_code = status.HTTP_404_NOT_FOUND,

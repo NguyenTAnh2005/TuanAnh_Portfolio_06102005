@@ -33,38 +33,38 @@ def get_all_category_blogs(
 
 
 
-@router.get("/{id}", response_model = schemas.CategoryBlogResponse)
+@router.get("/{category_blog_id:int}", response_model = schemas.CategoryBlogResponse)
 def get_category_blog_by_id(
-    id: int,
+    category_blog_id: int,
     db: Session = Depends(get_db),
     current_admin: models.User = Depends(get_current_admin)
 ):
-    return crud.get_category_blog_by_id(db, category_blog_id = id)
+    return crud.get_category_blog_by_id(db, category_blog_id = category_blog_id)
 
 
-@router.get("/slug/{slug}", response_model = schemas.CategoryBlogResponse)
+@router.get("/{category_blog_slug}", response_model = schemas.CategoryBlogResponse)
 def get_category_blog_by_slug(
-    slug: str,
+    category_blog_slug: str,
     db: Session = Depends(get_db),
     current_admin: models.User = Depends(get_current_admin)
 ):
-    return crud.get_category_blog_by_slug(db, category_blog_slug = slug)
+    return crud.get_category_blog_by_slug(db, category_blog_slug = category_blog_slug)
 
 
-@router.put("/{id}", response_model = schemas.CategoryBlogUpdate)
+@router.put("/{category_blog_id}", response_model = schemas.CategoryBlogResponse)
 def update_category_blog(
     updated_category_blog: schemas.CategoryBlogUpdate,
-    id: int,
+    category_blog_id: int,
     db: Session = Depends(get_db),
     current_admin: models.User = Depends(get_current_admin)
 ):
-    return crud.update_category_blog(db, category_blog_id = id, updated_category_blog = updated_category_blog)
+    return crud.update_category_blog(db, category_blog_id = category_blog_id, updated_category_blog = updated_category_blog)
 
 
-@router.delete("/{id}")
+@router.delete("/{category_blog_id}")
 def delete_category_blog(
-    id: int,
+    category_blog_id: int,
     db: Session = Depends(get_db),
     current_admin: models.User = Depends(get_current_admin)
 ):
-    return crud.delete_category_blog(db, category_blog_id = id)
+    return crud.delete_category_blog(db, category_blog_id = category_blog_id)

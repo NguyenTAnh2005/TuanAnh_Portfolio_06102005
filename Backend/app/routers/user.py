@@ -29,24 +29,24 @@ def create_user_by_admin(
 
 # @router.update--- for user, in current, we don't need this
 
-@router.put("/{id}", response_model = schemas_user.UserUpdateByAdmin)
+@router.put("/{user_id}", response_model = schemas_user.UserUpdateByAdmin)
 def update_user_by_admin(
-    id: int,
+    user_id: int,
     updated_user: schemas_user.UserUpdateByAdmin,
     db: Session = Depends(get_db),
     current_admin: models.User = Depends(get_current_admin)
 ):
-    return crud_user.update_user_by_admin(db, user_id = id, updated_user = updated_user)
+    return crud_user.update_user_by_admin(db, user_id = user_id, updated_user = updated_user)
 
 
-@router.patch("/{id}", response_model = schemas_user.UserResponse)
+@router.patch("/{user_id}", response_model = schemas_user.UserResponse)
 def update_password_by_admin(
     password: schemas_user.UserUpdatePassWordAdmin,
-    id: int,
+    user_id: int,
     db: Session = Depends(get_db),
     current_admin: models.User = Depends(get_current_admin)
 ):
-    return crud_user.update_password_by_admin(db, user_id = id, password_object = password)
+    return crud_user.update_password_by_admin(db, user_id = user_id, password_object = password)
 
 
 # @router.delete ----- this website also don't have to delete user :)))

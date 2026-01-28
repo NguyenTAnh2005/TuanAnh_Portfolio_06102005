@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, status, Depends, Query 
+from fastapi import APIRouter, Depends, Query 
 from sqlalchemy.orm import Session
 from typing import Literal
 from app.core.security import get_current_user, get_current_admin
@@ -35,31 +35,31 @@ def get_all_projects(
     return crud_project.get_all_projects(db, skip = skip, limit = limit, title = title, tech = tech, sort_by = sort_by, order = order)
 
 
-@router.get("/{id}", response_model = schemas_project.ProjectResponse)
+@router.get("/{project_id}", response_model = schemas_project.ProjectResponse)
 def get_project(
-    id: int,
+    project_id: int,
     db: Session = Depends(get_db),
     current_admin: models.User = Depends(get_current_admin)
 ):
-    return crud_project.get_project(db, project_id = id)
+    return crud_project.get_project(db, project_id = project_id)
 
 
-@router.put("/{id}", response_model = schemas_project.ProjectUpdate)
+@router.put("/{project_id}", response_model = schemas_project.ProjectUpdate)
 async def update_project(
-    id: int,
+    project_id: int,
     updated_project: schemas_project.ProjectUpdate,
     db: Session = Depends(get_db),
     current_admin: models.User = Depends(get_current_admin)
 ):
-    return await crud_project.update_project(db, project_id = id, updated_project = updated_project)
+    return await crud_project.update_project(db, project_id = project_id, updated_project = updated_project)
 
 
-@router.delete("/{id}")
+@router.delete("/{project_id}")
 def delete_project(
-    id: int,
+    project_id: int,
     db: Session = Depends(get_db),
     current_admin: models.User = Depends(get_current_admin)
 ): 
-    return crud_project.delete_project(db, project_id = id)
+    return crud_project.delete_project(db, project_id = project_id)
     
     

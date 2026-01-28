@@ -14,3 +14,4 @@ RESTART IDENTITY CASCADE;
 
 Select * from Users
 select * from Myinfos
+Select * from Blogs
