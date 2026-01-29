@@ -8,7 +8,6 @@ def create_myinfo(db:Session, myinfo: schemas_myinfo.MyInfoCreate):
     db.add(new_myinfo)
     db.commit()
     db.refresh(new_myinfo)
-    db.close()
     return new_myinfo
 
 

@@ -8,8 +8,8 @@ from app.core.github_service import get_reposity_info
 
 #=============== SEED DATA ROLES
 def seed_data_roles(db):
-    db.add(models.Role(id = 1, name = "Admin", description = "Quản trị hệ thống"))
-    db.add(models.Role(id = 2, name = "User", description = "Người dùng thông thường"))
+    db.add(models.Role(name = "Admin", description = "Quản trị hệ thống"))
+    db.add(models.Role(name = "User", description = "Người dùng thông thường"))
     print(f"🫨  Added roles seed data ....... waiting commit .............")
 
 
@@ -18,7 +18,7 @@ def seed_data_user(db):
     first_admin_password = hashing_password(settings.FIRST_ADMIN_PASSWORD)
     first_admin_email = settings.FIRST_ADMIN_EMAIL
     db.add(models.User(
-        id = 1, username = "Admin_Nguyen_05",
+        username = "Admin_Nguyen_05",
         password = first_admin_password,
         email = first_admin_email,
         role_id = 1
@@ -29,7 +29,6 @@ def seed_data_user(db):
 # ============ MY INFO SEED DATA 
 def seed_data_myinfo(db):
     db.add(models.Myinfo(
-        id = 1,
         fullname = "Nguyễn Tuấn Anh",
         gender = "Nam",
         hometown = "Hà Tĩnh, Việt Nam",
@@ -123,11 +122,11 @@ async def seed_data_projects(db):
 # ============ CATEGORY SEED DATA 
 def seed_data_category_blogs(db):
     categories = [
-        {"id" : 1,"name": "Học tập", "slug": "hoc-tap--hocthuat", "description": "Chia sẻ kiến thức, kinh nghiệm trong quá trình học tập chính"},
-        {"id" : 2,"name": "Giải trí", "slug": "giaitri-thethao", "description": "Chia sẻ xung quanh về giải trí, thể thao"},
-        {"id" : 3,"name": "Đời sống", "slug": "life", "description": "Chia sẻ các câu chuyện xung quanh đời sống"},
-        {"id" : 4,"name": "Kiến thức", "slug": "other--learning", "description": "Chia sẻ các kiến thức ngoài lĩnh vực đang học tập"},
-        {"id" : 5,"name": "Khác", "slug": "other", "description": "Lĩnh vực chưa được phân loại"},
+        {"name": "Học tập", "slug": "hoc-tap--hocthuat", "description": "Chia sẻ kiến thức, kinh nghiệm trong quá trình học tập chính"},
+        {"name": "Giải trí", "slug": "giaitri-thethao", "description": "Chia sẻ xung quanh về giải trí, thể thao"},
+        {"name": "Đời sống", "slug": "life", "description": "Chia sẻ các câu chuyện xung quanh đời sống"},
+        {"name": "Kiến thức", "slug": "other--learning", "description": "Chia sẻ các kiến thức ngoài lĩnh vực đang học tập"},
+        {"name": "Khác", "slug": "other", "description": "Lĩnh vực chưa được phân loại"},
     ]
     for cat in categories:
         db.add(models.CategoryBlog(**cat))
@@ -163,9 +162,9 @@ def seed_data_blogs(db):
 # ================= CATEGORY ACHIEVEMENT SEED DATA
 def seed_data_category_achievement(db):
     categories = [
-        {"id" : 1,"name": "CNTT", "description": "Thành tích liên quan chuyên ngành"},
-        {"id" : 2,"name": "Ngoại ngữ", "description": "Thành tích ngoại ngữ"},
-        {"id" : 3,"name": "Khác", "description": "Khác - Anh khạc hay em khạc"}
+        {"name": "CNTT", "description": "Thành tích liên quan chuyên ngành"},
+        {"name": "Ngoại ngữ", "description": "Thành tích ngoại ngữ"},
+        {"name": "Khác", "description": "Khác - Anh khạc hay em khạc"}
     ]
     for cat in categories:
         db.add(models.CategoryAchievement(**cat))
@@ -175,7 +174,6 @@ def seed_data_category_achievement(db):
 def seed_data_timeline(db):
     timelines = [
         {
-            "id": 1,
             "title": "Sinh viên đại học",
             "organization": "Trường đại học Bình Dương",
             "description": "Quãng thời gian tuyệt vời, cách thức học khác lạ so với các cấp dưới, tôi làm quen được nhiều bạn bè hơn, cởi mở trong xã hội hơn. Từ những ngày chập chững trong học tập lẫn sinh sống, ngày qua ngày tôi dần thích nghi và đắm chìm trong quãng thời gian học đường tuyệt vời này. Hên là chưa tạch môn.",
@@ -183,7 +181,6 @@ def seed_data_timeline(db):
             "sort_order": 1
         },
         {
-            "id": 2,
             "title": "Đi làm thêm ở GS25",
             "organization": "Chung cư Opal Skyline tại Bình Dương.",
             "description": "Trải nghiệm đi làm thêm tại cửa hàng tiện lợi GS25 - chuỗi cửa hàng có nguồn gốc từ Hàn Quốc. Tại đây tôi có nhiều trải nghiệm quý giá và cảm thấy trân trọng đồng tiền hơn. Nhưng tôi chỉ làm được vỏn vẹn 6 tháng trong năm hai tại đại học do không thể dành thêm thời gian tối thiểu trong tuần để đi làm.",
@@ -191,7 +188,6 @@ def seed_data_timeline(db):
             "sort_order": 2
         },
         {
-            "id": 3,
             "title": "Học sinh phổ thông",
             "organization": "Trường THPT Cẩm Bình",
             "description": "Một quãng thời gian học tập khá bình thường, không quá giỏi giang cũng không kém, thành tích học tập khá ổn. Thời điểm năm học lớp 11 (2021 - 2022), tôi được tiếp cận ngôn ngữ đầu tiên là PASCAL, lúc này tôi cũng chưa có một laptop để học lập trình.",
@@ -199,7 +195,6 @@ def seed_data_timeline(db):
             "sort_order": 3
         },
         {
-            "id": 4,
             "title": "Học sinh trung học",
             "organization": "Trường THCS Nguyễn Hữu Thái",
             "description": "Một khoảng thời gian học tập khá tuyệt vời, nơi kiến thức chưa nhiều và tôi cũng từng đi thi HSG huyện môn Toán 3 năm, Hóa 1 năm nhưng đều không thành công dù chỉ một giải khuyến khích :(",
@@ -207,7 +202,6 @@ def seed_data_timeline(db):
             "sort_order": 4
         },
         {
-            "id": 5,
             "title": "Học sinh tiểu học",
             "organization": "Trường tiểu học Cẩm Quang",
             "description": "Thời gian học cấp một tại trường học cũng quê nhà.",

@@ -7,7 +7,7 @@ from app.schemas import schemas_timeline as schemas
 
 def create_timeline(db: Session, timeline: schemas.TimelineCreate):
     db_sort_order = db.query(models.Timeline).filter(models.Timeline.sort_order == timeline.sort_order).first()
-    if not db_sort_order:
+    if db_sort_order:
         raise HTTPException(
             status_code = status.HTTP_409_CONFLICT,
             detail = "Đã tồn tại trường sort_order, vui lòng chỉnh lại trường này!"

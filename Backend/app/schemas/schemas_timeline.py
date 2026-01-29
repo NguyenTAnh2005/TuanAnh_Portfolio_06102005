@@ -6,7 +6,7 @@ class TimelineBase(BaseModel):
     organization : str
     description : str
     start_end : str
-    sort_order : str
+    sort_order : int
 
 class TimelineCreate(TimelineBase):
     pass
@@ -20,4 +20,4 @@ class TimelineUpdate(BaseModel):
     organization : Optional[str] = None
     description : Optional[str] = None
     start_end : Optional[str] = None
-    sort_order : Optional[str] = None
+    sort_order : Optional[int] = None
