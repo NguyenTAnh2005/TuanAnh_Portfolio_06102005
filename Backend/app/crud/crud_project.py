@@ -1,4 +1,5 @@
 from fastapi import HTTPException, status
+from typing import Union
 from app.core.security import get_current_user, get_current_admin
 from app.models import models
 from app.schemas import schemas_project
@@ -9,13 +10,28 @@ from app.core.security import parse_github_date
 from datetime import datetime, timezone
 
 
-async def create_project(db: Session, project: schemas_project.ProjectCreate):
-    db_project = db.query(models.Project).filter(models.Project.title == project.title).first()
-    if db_project:
+def check_conflict(db: Session, project_id: int, 
+                   object_project: Union[schemas_project.ProjectCreate, schemas_project.ProjectUpdate]
+):
+    filters = []
+    if hasattr(object_project, "title") and object_project.title:
+        filters.append(models.Project.title == object_project.title)
+    if not filters:
+        return 
+    query = db.query(models.Project).filter(*filters)
+    if project_id is not None:
+        query = query.filter(models.Project.id != project_id)
+    project_conflict = query.first()
+    if project_conflict:
         raise HTTPException(
             status_code = status.HTTP_409_CONFLICT,
             detail = "Đã tồn tại tên dự án trong cơ sở dữ liệu"
         )
+    return 
+
+
+async def create_project(db: Session, project: schemas_project.ProjectCreate):
+    check_conflict(db, project_id = None, object_project = project)
     data_fetch = await get_reposity_info(project.project_url)
 
     # when GitHub API fail or repo url is invalid, we will set default values to avoid error :v 
@@ -83,16 +99,7 @@ def get_project(db: Session, project_id: int):
 
 
 async def update_project(db: Session, project_id: int, updated_project: schemas_project.ProjectUpdate):
-    if updated_project.title:
-        updated_title = db.query(models.Project).filter(
-            models.Project.title == updated_project.title,
-            models.Project.id != project_id
-            ).first()
-        if updated_title:
-            raise HTTPException(
-                status_code = status.HTTP_409_CONFLICT,
-                detail = "Trường title được cập nhật đã tồn tại teong hệ thống, vui lòng cập nhật lại!!"
-            )
+    check_conflict(db, project_id, object_project = updated_project)
     db_project = get_project(db, project_id)
     # Convert info at request first, and then, we will check the project_url
     update_data = updated_project.model_dump(exclude_unset = True)
@@ -128,5 +135,5 @@ def delete_project(db: Session, project_id: int):
     return {
         "status": "Success",
         "message": " Đã xóa thành công project",
-        "project_info":{db_project}
+        "project_info":db_project
     }

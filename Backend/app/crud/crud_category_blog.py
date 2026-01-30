@@ -1,22 +1,34 @@
 from fastapi import HTTPException, status
+from typing import Union
 from sqlalchemy.orm import Session
 from app.schemas import schemas_category_blog as schemas
 from app.models import models
 from sqlalchemy import or_
 
 
-def create_category_blog(db: Session, category_blog: schemas.CategoryBlogCreate):
-    new_name = category_blog.name
-    new_slug = category_blog.slug
-    db_category_blog = db.query(models.CategoryBlog).filter(or_(
-        models.CategoryBlog.name == new_name,
-        models.CategoryBlog.slug == new_slug
-        )).first()
-    if db_category_blog:
+def check_conflict(db: Session, category_blog_id: int, 
+                   object_category_blog: Union[schemas.CategoryBlogCreate, schemas.CategoryBlogUpdate] ):
+    filters = []
+    if hasattr(object_category_blog, "name") and object_category_blog.name:
+        filters.append(models.CategoryBlog.name == object_category_blog.name)
+    if hasattr(object_category_blog, "slug") and object_category_blog.slug:
+        filters.append(models.CategoryBlog.slug == object_category_blog.slug)
+    if not filters:
+        return 
+    query = db.query(models.CategoryBlog).filter(or_(*filters))
+    if category_blog_id is not None:
+        query = query.filter(models.CategoryBlog.id != category_blog_id)
+    data_conflict = query.first()
+    if data_conflict:
         raise HTTPException(
             status_code = status.HTTP_409_CONFLICT,
             detail = "Category Blog đã tồn tại trường name hoặc slug. Vui lòng chỉnh sửa lại!"
         )
+    return 
+
+
+def create_category_blog(db: Session, category_blog: schemas.CategoryBlogCreate):
+    check_conflict(db, category_blog_id = None, object_category_blog = category_blog)
     new_category = models.CategoryBlog(**category_blog.model_dump())
     db.add(new_category)
     db.commit()
@@ -55,6 +67,7 @@ def get_category_blog_by_id(db: Session, category_blog_id: int):
 
 def update_category_blog(db: Session, category_blog_id: int, updated_category_blog: schemas.CategoryBlogUpdate,):
     db_category_blog = get_category_blog_by_id(db, category_blog_id)
+    check_conflict(db, category_blog_id, object_category_blog = updated_category_blog)
     update_data = updated_category_blog.model_dump(exclude_unset = True)
     for key, value in update_data.items():
         setattr(db_category_blog, key, value)

@@ -50,6 +50,16 @@ def update_timeline(
     updated_timeline: schemas.TimelineUpdate
 ):
     db_timeline = get_timeline(db, timeline_id = timeline_id)
+    if updated_timeline.sort_order:
+        updated_slug = db.query(models.Timeline).filter(
+            models.Timeline.sort_order == updated_timeline.sort_order,
+            models.Timeline.id != timeline_id
+            ).first()
+    if updated_slug:
+        raise HTTPException(
+            status_code = status.HTTP_409_CONFLICT,
+            detail = "Trường sort_order được cập nhật đã tồn tại trong hệ thống, vui lòng cập nhật lại!!"
+        )
     update_data = updated_timeline.model_dump(exclude_unset = True)
     for key, value in update_data.items():
         setattr(db_timeline, key, value)

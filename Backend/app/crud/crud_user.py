@@ -2,18 +2,40 @@ from sqlalchemy.orm import Session
 from app.models import models
 from app.schemas import schemas_user
 from fastapi import status, HTTPException
+from typing import Union
 from app.core.security import hashing_password, checking_pasword
 from app.core.config import settings
 from sqlalchemy import or_
 
-def create_user(db: Session, user: schemas_user.UserCreate):
-    new_email = user.email
-    db_user = db.query(models.User).filter(models.User.email == new_email).first()
-    if db_user:
+
+def check_conflict(db: Session, user_id: int, 
+                    user_object: Union[schemas_user.UserCreate, 
+                                       schemas_user.UserUpdate, 
+                                       schemas_user.UserCreateByAdmin, 
+                                       schemas_user.UserUpdateByAdmin]
+):
+    filter = []
+    # Nếu như có trường .... và trường ... gửi request khác None
+    if hasattr(user_object, "username") and user_object.username:
+        filter.append(models.User.username == user_object.username)
+    if hasattr(user_object, "email") and user_object.email:
+        filter.append(models.User.email == user_object.email)
+    if not filter:
+        return 
+    query = db.query(models.User).filter(or_(*filter))
+    if  user_id is not None:
+        query = query.filter(models.User.id != user_id)
+    conflict_user = query.first()
+    if conflict_user:
         raise HTTPException(
             status_code = status.HTTP_409_CONFLICT,
-            detail = "Email người dùng đã tồn tại. Vui lòng đổi email khác!"
+            detail = "Trường username hoặc email đã tồn tại trong hệ thống!"
         )
+    return 
+
+def create_user(db: Session, user: schemas_user.UserCreate):
+    new_email = user.email
+    check_conflict(db, user_id = None, user_object = user)
     new_user_data = user.model_dump()
     new_user_data["password"] = hashing_password(new_user_data["password"])
     new_user = models.User(**new_user_data)
@@ -25,12 +47,7 @@ def create_user(db: Session, user: schemas_user.UserCreate):
 
 def create_user_by_admin(db:Session, user: schemas_user.UserCreateByAdmin):
     new_email = user.email
-    db_user = db.query(models.User).filter(models.User.email == new_email).first()
-    if db_user:
-        raise HTTPException(
-            status_code = status.HTTP_409_CONFLICT,
-            detail = "Email người dùng đã tồn tại. Vui lòng đổi email khác!"
-        )
+    check_conflict(db, user_id = None, user_object = user)
     new_user_data = user.model_dump()
     new_user_data["password"] = hashing_password(new_user_data["password"])
     new_user = models.User(**new_user_data)
@@ -58,6 +75,7 @@ def update_user(db: Session, user_id: int, updated_user: schemas_user.UserUpdate
     db_user = get_user(db, user_id)
     # If not db_user, thí function will raise HTTPExecption from get_user function abow
     # If user want to update password, hash it first
+    check_conflict(db, user_id, updated_user)
     if updated_user.password:
         updated_user.password = hashing_password(updated_user.password)
     updated_data = updated_user.model_dump(exclude_unset=True)
@@ -71,6 +89,7 @@ def update_user(db: Session, user_id: int, updated_user: schemas_user.UserUpdate
 
 def update_user_by_admin(db: Session, user_id: int, updated_user: schemas_user.UserUpdateByAdmin):
     db_user = get_user(db, user_id)
+    check_conflict(db, user_id, updated_user)
     updated_data = updated_user.model_dump(exclude_unset=True)
     # admin can't update password for user so we don't need to hash password here
     for key, value in updated_data.items():

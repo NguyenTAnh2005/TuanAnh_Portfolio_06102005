@@ -234,6 +234,8 @@ async def seed_data():
         seed_data_category_blogs(db)
         seed_data_blogs(db)
         seed_data_timeline(db)
+        seed_data_category_achievement(db)
+        
         await seed_data_projects(db)
         
         if check_is_seeded:

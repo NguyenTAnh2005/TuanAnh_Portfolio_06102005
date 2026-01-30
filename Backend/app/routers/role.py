@@ -37,13 +37,7 @@ def get_role(
     db: Session = Depends(get_db),
     current_admin: models.User = Depends(get_current_admin)
 ):
-    founded_role = crud_role.get_role(db, role_id = role_id)
-    if not founded_role:
-        raise HTTPException(
-            status_code = status.HTTP_404_NOT_FOUND,
-            detail = "Không tìm thấy dữ liệu!"
-        )
-    return founded_role
+    return crud_role.get_role(db, role_id = role_id)
 
 @router.put("/{role_id}", response_model = schemas_role.RoleUpdate)
 def update_role(
@@ -52,13 +46,7 @@ def update_role(
     db: Session = Depends(get_db),
     current_admin: models.User = Depends(get_current_admin)
 ):
-    updated_data = crud_role.update_role(db, role_id = role_id, updated_role = updated_role)
-    if not updated_data:
-        raise HTTPException(
-            status_code = status.HTTP_404_NOT_FOUND,
-            detail = " Không tìm thấy thông tin để cập nhật"
-        )
-    return updated_data
+    return  crud_role.update_role(db, role_id = role_id, updated_role = updated_role)
 
 
 @router.delete("/{role_id}", response_model = schemas_role.RoleResponse)
@@ -67,10 +55,4 @@ def delete_role(
     db: Session = Depends(get_db),
     current_admin: models.User = Depends(get_current_admin)
 ):
-    deleted_data = crud_role.delete_role(db, role_id = role_id)
-    if not deleted_data:
-        raise HTTPException(
-            status_code = status.HTTP_404_NOT_FOUND,
-            detail = "Không tìm thấy thông tin để xóa!"
-        )
-    return deleted_data
+    return crud_role.delete_role(db, role_id = role_id)

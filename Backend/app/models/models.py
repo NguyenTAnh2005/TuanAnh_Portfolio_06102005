@@ -92,16 +92,7 @@ class Blog(Base):
 
 
 # ======= Bảng Contact Message ========
-class Contact(Base):
-    __tablename__ = "contacts"
-
-    id = Column(Integer, primary_key = True, index = True)
-    sender_name = Column(String, nullable = False)
-    sender_email = Column(String, nullable = False)
-    subject = Column(String, nullable = False)
-    message = Column(Text, nullable = False)
-    status = Column(String, nullable = False, default = "new")  # new, read
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
+# Removed
 
 
 #======== Bảng Config System lưu trữ các cờ quan trọng ====== (hiện tại dùng để lưu cờ đã có dữ liệu mẫu chưa)
@@ -125,12 +116,13 @@ class Timeline(Base):
     start_end = Column(String, nullable = False)
     sort_order = Column(Integer, unique= True, nullable = False)
 
+
 # Bảng danh mục thành tích: CNTT< ngoại ngữ, khác
 class CategoryAchievement(Base):
     __tablename__ = "category_achievements"
 
     id = Column(Integer, primary_key = True, index = True)
-    name = Column(String, nullable = False)
+    name = Column(String, unique = True, nullable = False)
     description = Column(Text, nullable = True)
 
     achievements = relationship("Achievement", back_populates = "category_achievement")
@@ -145,7 +137,7 @@ class Achievement(Base):
     content = Column(Text, nullable = False)
     achieved_at = Column(String, nullable = False)
     evidence_url = Column(String, nullable = False)
-    sort_order = Column(Integer, nullable = False)
+    sort_order = Column(Integer, unique = True, nullable = False)
 
     category_achievements_id = Column(ForeignKey("category_achievements.id"), nullable = False)
     category_achievement = relationship("CategoryAchievement",back_populates = "achievements")
