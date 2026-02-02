@@ -84,14 +84,14 @@ async def seed_data_projects(db):
             "thumbnail_url" : "https://res.cloudinary.com/df5mtvzkn/image/upload/v1767711413/My_Portfolio/Projects/asp_sellphone/asp-sellphone_siuupw.png",
             "project_url" : "https://github.com/NguyenTAnh2005/asp_sellphone",
             "deploy_url" : "http://oldphone.somee.com/",
-            "tech_stack" : ["Bootstrap, SweetAlert, Asp .Net, Cloudianry, SQL Sever"]
+            "tech_stack" : ["Bootstrap", "Asp .Net", "SQL Sever"]
         },
         {
             "title" : "Ứng dụng theo dõi thói quen",
             "thumbnail_url" : "https://res.cloudinary.com/df5mtvzkn/image/upload/v1767711400/My_Portfolio/Projects/Habit_Tracker/habit-tracker_f9lo64.png",
             "project_url" : "https://github.com/NguyenTAnh2005/Habit_Tracker",
             "deploy_url" : "https://habit-tracker-kappa-gold.vercel.app/",
-            "tech_stack" : ["FastAPI", "PostgreSQL", "JWT", "SQLalchemy", "Alembic Migration", "React", "Tailwind", "React-router-DOM", "Lucide React", "ChartJS", "React Calendar Heatmap", "React Tooltip"]
+            "tech_stack" : ["FastAPI", "React", "PostgreSQL"]
         },
 # {PostgreSQL,Mako,HTML,FastAPI,"Lucide React",Python,"React Toolip",JavaScript,CSS,JWT,ChartJS,"React Calender Heatmap",SQLalchemy,"Alembic Migration",React-router-DOM,React,Tailwind}
     ]
@@ -151,7 +151,7 @@ def seed_data_blogs(db):
     db.add(models.Blog(
             title="Dự án fullstack đầu tiên và ổn áp nhất của tôi!",
             slug="du-an-fullstack--first",
-            summary="Bài viết chia sẻ hành trình bản thân mình code một dự án fullstack đầu tiên và oke nhất!",
+            summary="Bài viết chia sẻ hành trình bản thân mình code một dự án fullstack đầu tiên!",
             content= blog_1_content,
             category_blog_id = 1,
             status="published",

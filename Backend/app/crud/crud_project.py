@@ -70,7 +70,7 @@ def get_all_projects(
         title: str = None,
         tech: str = None,
         sort_by: str = "created_at",
-        order: str = "desc" # tăng dần (small --> big)
+        order: str = "desc" 
         ):
     query = db.query(models.Project)
     if title:
