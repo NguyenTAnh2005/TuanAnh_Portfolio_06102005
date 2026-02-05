@@ -182,20 +182,20 @@ def seed_data_timeline(db):
         },
         {
             "title": "Đi làm thêm ở GS25",
-            "organization": "Chung cư Opal Skyline tại Bình Dương.",
+            "organization": "Lải Thiêu, Thuận An, TP. HCM",
             "description": "Trải nghiệm đi làm thêm tại cửa hàng tiện lợi GS25 - chuỗi cửa hàng có nguồn gốc từ Hàn Quốc. Tại đây tôi có nhiều trải nghiệm quý giá và cảm thấy trân trọng đồng tiền hơn. Nhưng tôi chỉ làm được vỏn vẹn 6 tháng trong năm hai tại đại học do không thể dành thêm thời gian tối thiểu trong tuần để đi làm.",
             "start_end": "12/2024 - 06/2025",
             "sort_order": 2
         },
         {
-            "title": "Học sinh phổ thông",
+            "title": "Học sinh trung học phổ thông",
             "organization": "Trường THPT Cẩm Bình",
             "description": "Một quãng thời gian học tập khá bình thường, không quá giỏi giang cũng không kém, thành tích học tập khá ổn. Thời điểm năm học lớp 11 (2021 - 2022), tôi được tiếp cận ngôn ngữ đầu tiên là PASCAL, lúc này tôi cũng chưa có một laptop để học lập trình.",
             "start_end": "2020 - 2023",
             "sort_order": 3
         },
         {
-            "title": "Học sinh trung học",
+            "title": "Học sinh trung học cơ sở",
             "organization": "Trường THCS Nguyễn Hữu Thái",
             "description": "Một khoảng thời gian học tập khá tuyệt vời, nơi kiến thức chưa nhiều và tôi cũng từng đi thi HSG huyện môn Toán 3 năm, Hóa 1 năm nhưng đều không thành công dù chỉ một giải khuyến khích :(",
             "start_end": "2016 - 2020",
