@@ -18,7 +18,8 @@ class Myinfo(Base):
     # Dùng JSONB để lưu các liên kết mạng xã hội linh hoạt
     # Ví dụ: {"github": "link...", "facebook": "link..."}
     social_links = Column(JSONB, nullable = True )
-    bio = Column(Text, nullable = True)
+    bio = Column(Text, nullable = False)
+    introduction = Column(Text, nullable = False)
 
 
 #========Bảng ROLE===========

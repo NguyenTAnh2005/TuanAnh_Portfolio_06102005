@@ -9,7 +9,8 @@ class MyInfoBase(BaseModel):
     languages: List[str]
     frameworks: List[str]
     social_links: Dict[str, str]
-    bio: Optional[str] = None
+    bio: str
+    introduction: str
 
 class MyInfoCreate(MyInfoBase):
     pass
@@ -28,4 +29,5 @@ class MyInfoUpdate(BaseModel):
     frameworks: Optional[List[str]] = None 
     social_links: Optional[Dict[str, str]] = None 
     bio: Optional[str] = None
+    introduction: Optional[str] = None
  

@@ -28,6 +28,7 @@ def seed_data_user(db):
 
 # ============ MY INFO SEED DATA 
 def seed_data_myinfo(db):
+    intro = """Tôi là sinh viên ngành Công nghệ Thông tin tại Đại học Bình Dương, Việt Nam. Tôi mong muốn trở thành một kỹ sư phần mềm trong tương lai. Mặc dù kiến ​​thức hiện tại của tôi chưa thực sự tự tin, nhưng tôi luôn nỗ lực học hỏi những điều mới cần thiết cho con đường sự nghiệp của mình."""
     db.add(models.Myinfo(
         fullname = "Nguyễn Tuấn Anh",
         gender = "Nam",
@@ -43,7 +44,8 @@ def seed_data_myinfo(db):
             "youtube" : "https://www.youtube.com/@N_T_Anh",
             "instagram" : "https://www.instagram.com/tuananh06102005"
         },
-        bio = "Trình độ - kinh nghiệm có thể ít nhưng tinh thần học hỏi thì không bao giờ thiếu!"
+        bio = "Trình độ - kinh nghiệm có thể ít nhưng tinh thần học hỏi thì không bao giờ thiếu!",
+        introduction = intro
     ))
     print(f"🫨  Added my info seed data ....... waiting commit .............")
 
@@ -135,19 +137,10 @@ def seed_data_category_blogs(db):
 
 #================= BLOGS SEED DATA
 def seed_data_blogs(db):
-    blog_1_content = """
-    Đó là thời điểm vào học kỳ đầu tiên của năm học thứ 3. Cũng là thời điểm sau 6 tháng mình làm quen với bộ ba cơ bản HTML-CSS-JavaScript.
-     Đây là dự án cho môn học phát triển ứng dụng mã nguồn mở. Và đương nhiên, đây là lần đầu bản thân mình thực sự code một dự án fullstack nên chắc chắn vẫn còn khá nhiều thứ thiếu sót. 
-     Tuy nhiên đối với bản thân mình thì đây là dự án thứ 2 mà bản thân mình thực sự tâm đắc (dự án đầu tiên là một CV sau nửa học kỳ làm quen với html-css-js). 
-     Dự án được giảng viên yêu cầu bắt buộc backend cần dùng FastAPI kết hợp JWT và dùng PostgreSQL, đây cũng là phần mình code nhiều hơn là frontend - phần giảng viên cho phép dùng AI hỗ trợ. 
-     Ở frontend dự án này thì mình dùng React với Vite. Dự án được mô tả là sẽ theo dõi thói quen của người dùng, thống kê lịch sử checkin các thói quen cũng như biểu hiện ra các sơ đồ trực quan (hình tròn, cột).
-     Thời điểm này cũng có khá nhiều môn học cùng có dự án cuối kỳ nên thực sự thời gian để dành cho dự án này là không hề nhiều, với đối với một người chân ướt chân ráo - chưa có kinh nghiệm nhiều về code một web đầy đủ frontend - backend,
-     thì đây thực sự là một khó khăn. Tuy nhiên, với công nghệ trí tuệ nhân tạo càng ngày phát triển, ngoài các kiến thức giảng viên cung cấp trên lớp học, thì mình cũng dùng một AI chat - Gemini Pro 2.5+, với sự hỗ trợ 
-     của nó đã giúp mình hiểu hơn về quy trình thực hiện backend - từ việc xây dựng CSDL, tạo các models, triển khai các API endpoint, tích hợp JWT, xây dựng CORC, kết nối backend - frontend. Và gần như 90% code frontend đều 
-     được AI này code <hộ>, tuy nhiên phần này giảng viên không yêu cầu mình phải code, chủ yếu giảng viên chỉ yêu cầu về backend hơn là front. Dù dự án khá thành công nhưng tồn tại song song một số điểm còn thiếu về dự án cũng 
-     như cách mình triển khai code web fullstack. Đây sẽ là một động lực thúc đẩy bản thân mình có thể phát triển nhiều hơn. Và trước hết là mình sẽ triển khai một dự án Portfolio - cũng dùng các công cụ như trên. Mục đích là để
-     có thể củng cố lại kiến thức backend như trên và quan trọng là nắm vững React căn bản nhất cho một frontend thay vì copy patse như frontend dự án habit-tracker này.
-"""
+    blog_1_content = """Đó là thời điểm vào học kỳ đầu tiên của năm học thứ 3. Cũng là thời điểm sau 6 tháng mình làm quen với bộ ba cơ bản HTML-CSS-JavaScript. Đây là dự án cho môn học phát triển ứng dụng mã nguồn mở. Và đương nhiên, đây là lần đầu bản thân mình thực sự code một dự án fullstack nên chắc chắn vẫn còn khá nhiều thứ thiếu sót. Tuy nhiên đối với bản thân mình thì đây là dự án thứ 2 mà bản thân mình thực sự tâm đắc (dự án đầu tiên là một CV sau nửa học kỳ làm quen với html-css-js). 
+     Dự án được giảng viên yêu cầu bắt buộc backend cần dùng FastAPI kết hợp JWT và dùng PostgreSQL, đây cũng là phần mình code nhiều hơn là frontend - phần giảng viên cho phép dùng AI hỗ trợ. Ở frontend dự án này thì mình dùng React với Vite. Dự án được mô tả là sẽ theo dõi thói quen của người dùng, thống kê lịch sử checkin các thói quen cũng như biểu hiện ra các sơ đồ trực quan (hình tròn, cột).
+     Thời điểm này cũng có khá nhiều môn học cùng có dự án cuối kỳ nên thực sự thời gian để dành cho dự án này là không hề nhiều, với đối với một người chân ướt chân ráo - chưa có kinh nghiệm nhiều về code một web đầy đủ frontend - backend, thì đây thực sự là một khó khăn. Tuy nhiên, với công nghệ trí tuệ nhân tạo càng ngày phát triển, ngoài các kiến thức giảng viên cung cấp trên lớp học, thì mình cũng dùng một AI chat - Gemini Pro 2.5+, với sự hỗ trợ của nó đã giúp mình hiểu hơn về quy trình thực hiện backend - từ việc xây dựng CSDL, tạo các models, triển khai các API endpoint, tích hợp JWT, xây dựng CORC, kết nối backend - frontend. Và gần như 90% code frontend đều được AI này code <hộ>, tuy nhiên phần này giảng viên không yêu cầu mình phải code, chủ yếu giảng viên chỉ yêu cầu về backend hơn là front. Dù dự án khá thành công nhưng tồn tại song song một số điểm còn thiếu về dự án cũng như cách mình triển khai code web fullstack. 
+     Đây sẽ là một động lực thúc đẩy bản thân mình có thể phát triển nhiều hơn. Và trước hết là mình sẽ triển khai một dự án Portfolio - cũng dùng các công cụ như trên. Mục đích là đểcó thể củng cố lại kiến thức backend như trên và quan trọng là nắm vững React căn bản nhất cho một frontend thay vì copy patse như frontend dự án habit-tracker này."""
     db.add(models.Blog(
             title="Dự án fullstack đầu tiên và ổn áp nhất của tôi!",
             slug="du-an-fullstack--first",
