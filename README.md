@@ -25,10 +25,11 @@
 - [x] Nghiên cứu fetch API github (chức năng dự án cần), Hash password, Seed Data
 - [x] Viết module bảo mật: JWT.
 - [x] Hoàn thiện Schemas và CRUD cho My Info (Table) (Kiểm thử với JWT).
+
 - [x] Viết script Seed Data mẫu.
 - [x] Chạy Uvicorn và test API qua Swagger UI.
 
-## 🛠️ Chặng 2:
+## 🛠️ Chặng 2: M
 
 ### Viết Schemas và hàm CRUD cho các Models còn lại:
 
@@ -49,8 +50,8 @@
 
 ## 🎨 Chặng 3:
 
-- [x] Khởi tạo project React, cấu hình Middleware CORS.
-- [...] Tập sử dụng figma để design Frontend
+- [ ] Sử dụng Figma thiết kế giao diện. (Inprogress)
+- [ ] Khởi tạo project React, cấu hình Middleware CORS.
 - [ ] Viết logic gọi API (Fetch/Axios) để kiểm tra kết nối.
 - [ ] Học và áp dụng kiến thức nâng cao về React (Hooks, Context).
 - [ ] Triển khai giao diện Portfolio hoàn chỉnh.
@@ -62,4 +63,3 @@
 ---
 
 _Dự án đang trong quá trình phát triển 🛠️_
-\_
