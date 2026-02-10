@@ -17,7 +17,7 @@ class Myinfo(Base):
     frameworks = Column(ARRAY(String), nullable = False)
     # Dùng JSONB để lưu các liên kết mạng xã hội linh hoạt
     # Ví dụ: {"github": "link...", "facebook": "link..."}
-    social_links = Column(JSONB, nullable = True )
+    contact_links = Column(JSONB, nullable = True )
     bio = Column(Text, nullable = False)
     introduction = Column(Text, nullable = False)
 

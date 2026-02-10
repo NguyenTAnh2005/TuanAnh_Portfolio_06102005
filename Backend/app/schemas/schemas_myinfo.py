@@ -8,7 +8,7 @@ class MyInfoBase(BaseModel):
     major: str
     languages: List[str]
     frameworks: List[str]
-    social_links: Dict[str, str]
+    contact_links: Dict[str, str]
     bio: str
     introduction: str
 
@@ -27,7 +27,7 @@ class MyInfoUpdate(BaseModel):
     major: Optional[str] = None
     languages: Optional[List[str]] = None
     frameworks: Optional[List[str]] = None 
-    social_links: Optional[Dict[str, str]] = None 
+    contact_links: Optional[Dict[str, str]] = None 
     bio: Optional[str] = None
     introduction: Optional[str] = None
  

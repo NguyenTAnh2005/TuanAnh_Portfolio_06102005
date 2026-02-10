@@ -36,10 +36,12 @@ def seed_data_myinfo(db):
         major = "Kỹ sư phần mềm - Solfware Engineer",
         languages = ["Python", "HTML", "CSS", "JavaScript", "C#","Java"],
         frameworks = ["Bootstrap", "Tailwind", "React", "FastAPI", "MVC .Net"],
-        social_links = {
+        contact_links = {
             "zalo" : "https://zalo.me/0328884320",
+            "phone_number": "+84 328884320",
             "github" : "https://github.com/NguyenTAnh2005",
-            "email" : "mailto=23050118@student.bdu.edu.vn",
+            "email1" : "23050118@student.bdu.edu.vn",
+            "email2" : "anhnguyentaun@gmail.com",
             "facebook" : "https://www.facebook.com/share/14QaznFt8ZF",
             "youtube" : "https://www.youtube.com/@N_T_Anh",
             "instagram" : "https://www.instagram.com/tuananh06102005"
