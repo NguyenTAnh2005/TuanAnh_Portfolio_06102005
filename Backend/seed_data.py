@@ -34,8 +34,8 @@ def seed_data_myinfo(db):
         gender = "Nam",
         hometown = "Hà Tĩnh, Việt Nam",
         major = "Kỹ sư phần mềm - Solfware Engineer",
-        languages = ["Python", "HTML", "CSS", "JavaScript", "C#","Java"],
-        frameworks = ["Bootstrap", "Tailwind", "React", "FastAPI", "MVC .Net"],
+        languages = ["Python", "C#", "HTML5", "CSS3", "JavaScript"],
+        frameworks = ["Bootstrap", "React", "Tailwind", "MVC .Net", "FastAPI"],
         contact_links = {
             "zalo" : "https://zalo.me/0328884320",
             "phone_number": "+84 328884320",

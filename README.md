@@ -48,9 +48,18 @@
 
 - [] .....
 
-## 🎨 Chặng 3:
+## 🎨 Chặng 3.1:Sử dụng Figma thiết kế giao diện. (Inprogress)
 
-- [ ] Sử dụng Figma thiết kế giao diện. (Inprogress)
+- [x] Home
+- [x] About
+- [ ] Projects
+- [ ] Timelines
+- [ ] Blogs
+- [ ] Achievements
+- [ ] Admin Managerment
+
+## 🎨 Chặng 3.2:
+
 - [ ] Khởi tạo project React, cấu hình Middleware CORS.
 - [ ] Viết logic gọi API (Fetch/Axios) để kiểm tra kết nối.
 - [ ] Học và áp dụng kiến thức nâng cao về React (Hooks, Context).
