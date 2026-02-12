@@ -31,3 +31,9 @@ class ProjectUpdate(BaseModel):
     project_url: Optional[str] = None 
     deploy_url: Optional[str] = None 
     tech_stack: list[str]  = []
+
+class ProjectPaginationResponse(BaseModel):
+    total: int
+    page: int
+    limit: int
+    data: list[ProjectResponse]

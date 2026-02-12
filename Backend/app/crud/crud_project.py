@@ -72,6 +72,12 @@ def get_all_projects(
         sort_by: str = "created_at",
         order: str = "desc" 
         ):
+    # Update :  Return paginated response at schemas file 
+    # class ProjectPaginationResponse(BaseModel):
+    # total: int
+    # page: int
+    # limit: int
+    # data: list[ProjectResponse]
     query = db.query(models.Project)
     if title:
         query = query.filter(models.Project.title.ilike(f"%{title}%"))
@@ -85,7 +91,17 @@ def get_all_projects(
         query = query.order_by(desc(sort_column))
     else:
         query = query.order_by(asc(sort_column))
-    return query.offset(skip).limit(limit).all()
+    total = query.count()
+    page = (skip//limit) + 1
+    data =  query.offset(skip).limit(limit).all()
+    return {
+        "total": total,
+        "page": page,
+        "limit": limit,
+        "data": data
+    }
+
+
 
 
 def get_project(db: Session, project_id: int):

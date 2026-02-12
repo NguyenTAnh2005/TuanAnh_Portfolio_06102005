@@ -52,7 +52,7 @@
 
 - [x] Home
 - [x] About
-- [ ] Projects
+- [ ] Projects (80%)
 - [ ] Timelines
 - [ ] Blogs
 - [ ] Achievements

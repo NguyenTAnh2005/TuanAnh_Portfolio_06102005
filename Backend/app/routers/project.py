@@ -22,10 +22,10 @@ async def create_project(
     return await crud_project.create_project(db, project = project)
 
 
-@router.get("/", response_model = list[schemas_project.ProjectResponse])
+@router.get("/", response_model = schemas_project.ProjectPaginationResponse)
 def get_all_projects(
     db: Session = Depends(get_db),
-    skip: int = Query(0, ge = 0, description = "Số bản ghi muốn bỏ qua (trang 1 ... 10) "),
+    skip: int = Query(0, ge = 0, description = "Số bản ghi muốn bỏ qua: "),
     limit: int = Query(30, ge = 1, le = 30, description = "Số dữ liệu (row) tối đa trên một trang"),
     title: str = Query(None, description = "Tìm theo tên dự án - description"),
     tech: str = Query(None, description = "Tìm theo tên công nghệ được sửa dụng trong dự án (React, FastAPI,...)"),
