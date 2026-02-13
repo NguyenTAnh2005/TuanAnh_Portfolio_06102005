@@ -52,8 +52,8 @@
 
 - [x] Home
 - [x] About
-- [ ] Projects (80%)
-- [ ] Timelines
+- [x] Projects
+- [x] Timelinesj
 - [ ] Blogs
 - [ ] Achievements
 - [ ] Admin Managerment
